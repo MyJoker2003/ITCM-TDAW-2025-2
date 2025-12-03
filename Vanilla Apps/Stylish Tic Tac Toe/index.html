@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic tac toe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <h1>TIC TAC TOE</h1>
+        <div class="cards-container">
+            <div class="card">
+                <div id="settings">
+                    <h2>Game Settings</h2>
+                    <label>
+                        Mode:
+                        <select id="modeSelect">
+                            <option value="multi">Multiplayer</option>
+                            <option value="single">Single Player</option>
+                        </select>
+                    </label>
+                    <br>
+                    <label>
+                        Who starts:
+                        <select id="startSelect">
+                            <option value="player1">Player 1</option>
+                            <option value="player2">Player 2</option>
+                        </select>
+                    </label>
+                    <br>
+                    <label>
+                        Symbol of Player 1:
+                        <select id="symbolSelect">
+                            <option value="X">X</option>
+                            <option value="O">O</option>
+                        </select>
+                        <br>
+                    </label>
+                    <button id="startBtn">Start Game</button>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Game Board</h2>
+                <div class="cellContainer">
+                    <div data-cell-index="0" class="cell"></div>
+                    <div data-cell-index="1" class="cell"></div>
+                    <div data-cell-index="2" class="cell"></div>
+                    <div data-cell-index="3" class="cell"></div>
+                    <div data-cell-index="4" class="cell"></div>
+                    <div data-cell-index="5" class="cell"></div>
+                    <div data-cell-index="6" class="cell"></div>
+                    <div data-cell-index="7" class="cell"></div>
+                    <div data-cell-index="8" class="cell"></div>
+                </div>
+                <h2 id="statusText"></h2>
+                <button id="reset-button">Reset Game</button>
+            </div>
+        </div>
+    </main>
+    <script src="tictactoe.js"></script>
+</body>
+</html>
+

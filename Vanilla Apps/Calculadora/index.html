@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Básica</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <div class="previous-expression"></div>
+            <div class="main-panel">0</div>
+        </div>
+        
+        <div class="buttons">
+            <!-- Primera fila -->
+            <button class="btn btn-function">^</button>
+            <button class="btn btn-function">√</button>
+            <button class="btn btn-function">(</button>
+            <button class="btn btn-function">)</button>
+            <button class="btn btn-operator">/</button>
+            
+            <!-- Segunda fila -->
+            <!--<button class="btn btn-clear">CE</button>-->
+            <button class="btn btn-function">%</button>
+            <button class="btn">7</button>
+            <button class="btn">8</button>
+            <button class="btn">9</button>
+            <button class="btn btn-operator">×</button>
+            
+            <!-- Tercera fila -->
+            <button class="btn btn-clear">CE</button>
+            <button class="btn">4</button>
+            <button class="btn">5</button>
+            <button class="btn">6</button>
+            <button class="btn btn-operator">-</button>
+            
+            <!-- Cuarta fila -->
+            <button class="btn btn-clear btn-doble-vertical">AC</button>
+            <button class="btn">1</button>
+            <button class="btn">2</button>
+            <button class="btn">3</button>
+            <button class="btn btn-operator">+</button>
+            
+            <!-- Quinta fila -->
+            <!-- AC continúa aquí verticalmente -->
+            <button class="btn">.</button>
+            <button class="btn btn-zero">0</button>
+            <button class="btn btn-equals">=</button>
+        </div>
+    </div>
+</body>
+</html>
