@@ -1,0 +1,127 @@
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+}
+
+#weather-container {
+  background: rgba(255, 255, 255, 0.3);
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+h2, label, p {
+  color: #fff;
+  margin: 8px 0;
+}
+
+input {
+  width: calc(100% - 16px);
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid white;
+  margin-top: 20px;
+  text-align: center;
+  font-family: Verdana;
+  font-size: 17px;
+}
+
+button {
+  font-weight: bold;
+  background-color: #8b48d7;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100px;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #debff4;
+}
+
+#temp-div p {
+  font-size: 45px;
+  font-weight: bold;
+  margin-top: -30px;
+}
+
+#weather-info {
+  font-size: 20px;
+}
+
+#weather-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px;
+  margin-bottom: 0;
+}
+
+#hourly-forecast {
+  margin-top: 50px;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hourly-item {
+  flex: 0 0 auto;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom:10px;
+  padding: 10px;
+  color: rgb(205, 205, 205);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hourly-item img {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+/* Estilos de scrollbar se mantienen igual */
+#hourly-forecast::-webkit-scrollbar {
+    height: 8px;
+}
+
+#hourly-forecast::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    padding: 1px;
+}
+
+#hourly-forecast::-webkit-scrollbar-thumb {
+    background: rgb(119, 24, 252);
+    border-radius: 10px;
+}
+
+#hourly-forecast::-webkit-scrollbar-thumb:hover {
+    background: rgb(208, 176, 255);
+}
