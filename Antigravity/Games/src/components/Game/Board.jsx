@@ -93,20 +93,20 @@ const Board = () => {
 
     return (
         <group>
-            {/* Grid Container/Background */}
+            {/* Grid Container/Background 
             <mesh position={[BOARD_WIDTH / 2 - 0.5, BOARD_HEIGHT / 2 - 0.5, -0.5]}>
                 <planeGeometry args={[BOARD_WIDTH, BOARD_HEIGHT]} />
                 <meshStandardMaterial color="#7171b4ff" opacity={0.8} transparent roughness={0.8} />
-            </mesh>
+            </mesh>*/}
 
             <Edges />
 
-            {/* Grid Lines (Optional, maybe use Grid helper) */}
+            {/* Grid Lines (Optional, maybe use Grid helper) 
             <gridHelper
                 args={[BOARD_WIDTH, BOARD_WIDTH, 0x333333, 0x111111]}
                 position={[BOARD_WIDTH / 2 - 0.5, -0.5, BOARD_WIDTH / 2 - 0.5]}
                 rotation={[Math.PI / 2, 0, 0]}
-            />
+            />*/}
 
             {renderedGrid}
         </group>
