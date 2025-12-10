@@ -20,6 +20,7 @@ function App() {
   const rotatePiece = useGameStore((state) => state.rotatePiece);
   const togglePause = useGameStore((state) => state.togglePause);
   const loadProgress = useGameStore((state) => state.loadProgress);
+  const hardDrop = useGameStore((state) => state.hardDrop);
 
   // Load persistence on mount
   useEffect(() => {
@@ -38,6 +39,11 @@ function App() {
 
       if (status !== 'PLAYING' || isSettingsOpen || isTutorialOpen || isPaused) return;
 
+      // Prevent default behavior for game controls to avoid scrolling or button clicks
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
+
       switch (e.key) {
         case 'ArrowLeft':
           movePiece(-1, 0);
@@ -53,6 +59,14 @@ function App() {
           break;
         case ' ':
           rotatePiece();
+          // Blur any focused element to prevent random button clicks
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+          break;
+        case 'q':
+        case 'Q':
+          hardDrop();
           break;
         default:
           break;
@@ -61,7 +75,7 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [status, isSettingsOpen, isTutorialOpen, isPaused, movePiece, rotatePiece, togglePause]);
+  }, [status, isSettingsOpen, isTutorialOpen, isPaused, movePiece, rotatePiece, togglePause, hardDrop]);
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-black select-none">

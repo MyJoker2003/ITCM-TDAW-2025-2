@@ -41,11 +41,12 @@ const TutorialOverlay = () => {
                             </li>
                             <li className="flex items-center gap-3">
                                 <kbd className="px-2 py-1 bg-gray-800 rounded border border-gray-700">↑</kbd>
+                                <span className="border border-white/30 px-2 rounded text-sm bg-white/10">Space</span>
                                 <span>Rotate</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <kbd className="px-2 py-1 bg-gray-800 rounded border border-gray-700">Space</kbd>
-                                <span>Hard Drop / Rotate</span>
+                                <span className="border border-cyan-400/50 px-2 rounded text-sm bg-cyan-900/30 font-bold text-cyan-400">Q</span>
+                                <span>Hard Drop</span>
                             </li>
                         </ul>
                     </div>

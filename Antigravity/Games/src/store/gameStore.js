@@ -193,6 +193,24 @@ export const useGameStore = create((set, get) => ({
         return false;
     },
 
+    hardDrop: () => {
+        const { activePiece, status, checkCollision, lockPiece } = get();
+        if (status !== 'PLAYING' || !activePiece) return;
+
+        let dropDist = 0;
+        while (true) {
+            const nextPos = { ...activePiece.position, y: activePiece.position.y + dropDist + 1 };
+            if (checkCollision({ ...activePiece, position: nextPos })) {
+                break;
+            }
+            dropDist++;
+        }
+
+        const newPiece = { ...activePiece, position: { ...activePiece.position, y: activePiece.position.y + dropDist } };
+        set({ activePiece: newPiece });
+        get().lockPiece(); // Call via get() to ensure context
+    },
+
     lockPiece: () => {
         const { grid, activePiece } = get();
         const newGrid = grid.map((row) => [...row]);
@@ -222,11 +240,25 @@ export const useGameStore = create((set, get) => ({
             // Animation state
             set({ grid: newGrid, activePiece: null, clearingLines: linesToClear });
 
-            // Wait for animation then clear
-            setTimeout(() => {
+            const playAnimation = async () => {
+                const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+                await sleep(200);   // ON 1
+                set({ clearingLines: [] });
+                await sleep(100);   // OFF 1
+
+                set({ clearingLines: linesToClear }); // ON 2
+                await sleep(200);
+                set({ clearingLines: [] }); // OFF 2
+                await sleep(100);
+
+                set({ clearingLines: linesToClear }); // ON 3
+                await sleep(200);
+
                 get().clearLines(linesToClear, newGrid);
-                get().spawnPiece();
-            }, 500); // 500ms blink duration
+            };
+            playAnimation();
+
         } else {
             set({ grid: newGrid, activePiece: null });
             get().spawnPiece();
@@ -251,11 +283,10 @@ export const useGameStore = create((set, get) => ({
         const newLines = lines + linesCleared;
         const newLevelProgress = levelProgress + linesCleared;
 
-        const LINES_PER_LEVEL = 10;
+        const linesRequired = 10 + (level - 1) * 4;
 
-        if (newLevelProgress >= LINES_PER_LEVEL) {
+        if (newLevelProgress >= linesRequired) {
             // LEVEL CLEARED ANIMATION
-            // 1. Set full board blinking
             const allLines = Array.from({ length: BOARD_HEIGHT }, (_, i) => i);
 
             set({
@@ -263,27 +294,41 @@ export const useGameStore = create((set, get) => ({
                 score: newScore,
                 lines: newLines,
                 levelProgress: newLevelProgress,
-                clearingLines: allLines, // Blink EVERYTHING
+                clearingLines: allLines,
                 activePiece: null
             });
 
-            // 2. Wait then show modal
-            setTimeout(() => {
+            const playLevelAnim = async () => {
+                const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+                await sleep(200);
+                set({ clearingLines: [] });
+                await sleep(100);
+
+                set({ clearingLines: allLines });
+                await sleep(200);
+                set({ clearingLines: [] });
+                await sleep(100);
+
+                set({ clearingLines: allLines });
+                await sleep(200);
+
                 set({
                     status: 'LEVEL_CLEARED',
                     clearingLines: [],
                     maxUnlockedLevel: Math.max(get().maxUnlockedLevel, level + 1)
                 });
                 get().saveProgress();
-            }, 1000); // 1s visual celebration
+            };
+            playLevelAnim();
+
         } else {
-            // Normal continue
             set({
                 grid: newGrid,
                 score: newScore,
                 lines: newLines,
                 levelProgress: newLevelProgress,
-                clearingLines: [], // Reset animation state
+                clearingLines: [],
             });
             get().spawnPiece();
         }
