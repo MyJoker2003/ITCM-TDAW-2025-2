@@ -15,26 +15,81 @@ export const useGameStore = create((set, get) => ({
     score: 0,
     lines: 0,
     level: 1,
+    levelProgress: 0, // Lines cleared in current level
+    maxUnlockedLevel: 1,
     status: 'MENU',
     isSettingsOpen: false,
     isTutorialOpen: false,
+    isPaused: false,
     clearingLines: [], // Indices of lines being cleared
 
     setStatus: (status) => set({ status }),
     toggleSettings: () => set((state) => ({ isSettingsOpen: !state.isSettingsOpen })),
     toggleTutorial: () => set((state) => ({ isTutorialOpen: !state.isTutorialOpen })),
 
-    startGame: () => {
+    togglePause: () => set((state) => {
+        if (state.status === 'PLAYING') {
+            return { status: 'PAUSED', isPaused: true };
+        } else if (state.status === 'PAUSED') {
+            return { status: 'PLAYING', isPaused: false };
+        }
+        return {};
+    }),
+
+    loadProgress: () => {
+        const saved = localStorage.getItem('tetris_progress');
+        if (saved) {
+            try {
+                const { maxUnlockedLevel } = JSON.parse(saved);
+                set({ maxUnlockedLevel: maxUnlockedLevel || 1 });
+            } catch (e) {
+                console.error("Failed to load progress", e);
+            }
+        }
+    },
+
+    saveProgress: () => {
+        const { maxUnlockedLevel } = get();
+        localStorage.setItem('tetris_progress', JSON.stringify({ maxUnlockedLevel }));
+    },
+
+    startGame: (level = 1) => {
         set({
             grid: createEmptyGrid(),
             activePiece: null,
             nextPiece: randomTetromino(),
             score: 0,
             lines: 0,
-            level: 1,
+            level: level,
+            levelProgress: 0,
             status: 'PLAYING',
             isSettingsOpen: false,
             isTutorialOpen: false,
+            isPaused: false,
+            clearingLines: [],
+        });
+        get().spawnPiece();
+    },
+
+    nextLevel: () => {
+        const { level, maxUnlockedLevel } = get();
+        const nextLvl = level + 1;
+
+        // Update max unlocked level if needed
+        let newMax = maxUnlockedLevel;
+        if (nextLvl > maxUnlockedLevel) {
+            newMax = nextLvl;
+            set({ maxUnlockedLevel: newMax });
+            get().saveProgress();
+        }
+
+        set({
+            grid: createEmptyGrid(), // Reset board for new level
+            activePiece: null,
+            nextPiece: randomTetromino(),
+            level: nextLvl,
+            levelProgress: 0,
+            status: 'PLAYING',
             clearingLines: [],
         });
         get().spawnPiece();
@@ -179,7 +234,7 @@ export const useGameStore = create((set, get) => ({
     },
 
     clearLines: (linesIndices, currentGrid) => {
-        const { score, lines, level } = get();
+        const { score, lines, level, levelProgress } = get();
         const linesCleared = linesIndices.length;
 
         // Filter out cleared lines
@@ -194,20 +249,49 @@ export const useGameStore = create((set, get) => ({
         const points = [0, 40, 100, 300, 1200];
         const newScore = score + points[linesCleared] * level;
         const newLines = lines + linesCleared;
-        const newLevel = Math.floor(newLines / 10) + 1;
+        const newLevelProgress = levelProgress + linesCleared;
 
-        set({
-            grid: newGrid,
-            score: newScore,
-            lines: newLines,
-            level: newLevel,
-            clearingLines: [], // Reset animation state
-        });
+        const LINES_PER_LEVEL = 10;
+
+        if (newLevelProgress >= LINES_PER_LEVEL) {
+            // LEVEL CLEARED ANIMATION
+            // 1. Set full board blinking
+            const allLines = Array.from({ length: BOARD_HEIGHT }, (_, i) => i);
+
+            set({
+                grid: newGrid,
+                score: newScore,
+                lines: newLines,
+                levelProgress: newLevelProgress,
+                clearingLines: allLines, // Blink EVERYTHING
+                activePiece: null
+            });
+
+            // 2. Wait then show modal
+            setTimeout(() => {
+                set({
+                    status: 'LEVEL_CLEARED',
+                    clearingLines: [],
+                    maxUnlockedLevel: Math.max(get().maxUnlockedLevel, level + 1)
+                });
+                get().saveProgress();
+            }, 1000); // 1s visual celebration
+        } else {
+            // Normal continue
+            set({
+                grid: newGrid,
+                score: newScore,
+                lines: newLines,
+                levelProgress: newLevelProgress,
+                clearingLines: [], // Reset animation state
+            });
+            get().spawnPiece();
+        }
     },
 
     tick: () => {
-        const { status, movePiece, lockPiece, clearingLines } = get();
-        if (status !== 'PLAYING') return;
+        const { status, movePiece, lockPiece, clearingLines, isPaused } = get();
+        if (status !== 'PLAYING' || isPaused) return;
 
         // Don't tick if animation is playing
         if (clearingLines.length > 0) return;

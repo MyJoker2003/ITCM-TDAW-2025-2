@@ -5,6 +5,8 @@ const MainMenu = () => {
     const startGame = useGameStore((state) => state.startGame);
     const toggleSettings = useGameStore((state) => state.toggleSettings);
     const toggleTutorial = useGameStore((state) => state.toggleTutorial);
+    const maxUnlockedLevel = useGameStore((state) => state.maxUnlockedLevel);
+    const setStatus = useGameStore((state) => state.setStatus);
 
     return (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center">
@@ -24,12 +26,22 @@ const MainMenu = () => {
 
                 <div className="flex flex-col gap-4 w-64">
                     <button
-                        onClick={startGame}
+                        onClick={() => startGame(1)}
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/50"
                     >
                         <Play size={24} />
                         START GAME
                     </button>
+
+                    {maxUnlockedLevel > 1 && (
+                        <button
+                            onClick={() => setStatus('LEVEL_SELECT')}
+                            className="flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-green-500/50"
+                        >
+                            <Play size={24} />
+                            CONTINUE GAME
+                        </button>
+                    )}
 
                     <button
                         onClick={toggleSettings}

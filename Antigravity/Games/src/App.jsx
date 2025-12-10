@@ -5,19 +5,38 @@ import HUD from './components/UI/HUD';
 import GameOver from './components/UI/GameOver';
 import SettingsModal from './components/UI/SettingsModal';
 import TutorialOverlay from './components/UI/TutorialOverlay';
+import LevelClearedModal from './components/UI/LevelClearedModal';
+import PauseModal from './components/UI/PauseModal';
+import LevelSelect from './components/UI/LevelSelect';
 import { useGameStore } from './store/gameStore';
 
 function App() {
   const status = useGameStore((state) => state.status);
   const isSettingsOpen = useGameStore((state) => state.isSettingsOpen);
   const isTutorialOpen = useGameStore((state) => state.isTutorialOpen);
+  const isPaused = useGameStore((state) => state.isPaused);
+
   const movePiece = useGameStore((state) => state.movePiece);
   const rotatePiece = useGameStore((state) => state.rotatePiece);
-  const tick = useGameStore((state) => state.tick);
+  const togglePause = useGameStore((state) => state.togglePause);
+  const loadProgress = useGameStore((state) => state.loadProgress);
+
+  // Load persistence on mount
+  useEffect(() => {
+    loadProgress();
+  }, [loadProgress]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (status !== 'PLAYING' || isSettingsOpen || isTutorialOpen) return;
+      // Allow pausing only during gameplay
+      if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') {
+        if (status === 'PLAYING' || status === 'PAUSED') {
+          togglePause();
+          return;
+        }
+      }
+
+      if (status !== 'PLAYING' || isSettingsOpen || isTutorialOpen || isPaused) return;
 
       switch (e.key) {
         case 'ArrowLeft':
@@ -32,9 +51,7 @@ function App() {
         case 'ArrowUp':
           rotatePiece();
           break;
-        case ' ': // Hard drop (optional, or just fast drop)
-          // For now, space can also rotate or be hard drop if implemented
-          // Let's make space hard drop later, for now maybe just rotate
+        case ' ':
           rotatePiece();
           break;
         default:
@@ -44,18 +61,21 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [status, movePiece, rotatePiece]);
+  }, [status, isSettingsOpen, isTutorialOpen, isPaused, movePiece, rotatePiece, togglePause]);
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-black select-none">
       <Scene />
 
       {status === 'MENU' && <MainMenu />}
-      {status === 'PLAYING' && <HUD />}
+      {(status === 'PLAYING' || status === 'PAUSED' || status === 'LEVEL_CLEAR_ANIMATION') && <HUD />}
       {status === 'GAME_OVER' && <GameOver />}
+      {status === 'LEVEL_CLEARED' && <LevelClearedModal />}
+      {status === 'LEVEL_SELECT' && <LevelSelect />}
 
       {isSettingsOpen && <SettingsModal />}
       {isTutorialOpen && <TutorialOverlay />}
+      {isPaused && <PauseModal />}
     </div>
   );
 }
