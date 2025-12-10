@@ -5,8 +5,16 @@ const TutorialOverlay = () => {
     const toggleTutorial = useGameStore((state) => state.toggleTutorial);
 
     return (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/90 z-50 backdrop-blur-md p-4">
-            <div className="bg-gray-900 border border-cyan-500/50 p-8 rounded-xl max-w-2xl w-full relative shadow-2xl shadow-cyan-900/20">
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+            {/* Background Image */}
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url('/backimages/starry.webp')" }}
+            />
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+            <div className="relative z-10 bg-gray-900 border border-cyan-500/50 p-8 rounded-xl max-w-2xl w-full relative shadow-2xl shadow-cyan-900/20">
                 <button
                     onClick={toggleTutorial}
                     className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
