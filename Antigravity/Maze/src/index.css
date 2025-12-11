@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-sci-fi-bg text-white overflow-hidden;
+    font-family: 'Inter', sans-serif; /* Default, will add Google Font link in index.html */
+  }
+}
