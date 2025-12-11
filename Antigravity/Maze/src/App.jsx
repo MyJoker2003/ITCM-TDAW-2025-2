@@ -100,6 +100,12 @@ function App() {
         onClose={() => setShowSettings(false)}
         volume={volume}
         onVolumeChange={setVolume}
+        onResetData={() => {
+          localStorage.removeItem('maxLevel');
+          setMaxLevel(1);
+          setCurrentLevel(1);
+          setView('MENU'); // Force back to menu just in case
+        }}
       />
     </div>
   );

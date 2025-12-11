@@ -2,7 +2,7 @@
 import React from 'react';
 import { X, Volume2 } from 'lucide-react';
 
-const SettingsModal = ({ isOpen, onClose, volume, onVolumeChange }) => {
+const SettingsModal = ({ isOpen, onClose, volume, onVolumeChange, onResetData }) => {
     if (!isOpen) return null;
 
     return (
@@ -36,12 +36,22 @@ const SettingsModal = ({ isOpen, onClose, volume, onVolumeChange }) => {
                     </div>
                 </div>
 
-                <div className="mt-8 flex justify-center">
+                <div className="mt-8 flex flex-col gap-4">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2 bg-sci-fi-accent text-black font-bold rounded hover:bg-cyan-300 transition-colors"
+                        className="px-6 py-2 bg-sci-fi-accent text-black font-bold rounded hover:bg-cyan-300 transition-colors w-full"
                     >
                         DONE
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            onResetData();
+                            onClose();
+                        }}
+                        className="px-6 py-2 bg-red-900/50 border border-red-500 text-red-400 font-bold rounded hover:bg-red-900 transition-colors w-full text-sm"
+                    >
+                        RESET PROGRESS
                     </button>
                 </div>
             </div>
