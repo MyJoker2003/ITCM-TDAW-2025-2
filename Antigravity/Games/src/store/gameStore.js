@@ -89,6 +89,8 @@ export const useGameStore = create((set, get) => ({
             nextPiece: randomTetromino(),
             level: nextLvl,
             levelProgress: 0,
+            score: 0, // Reset score for new level
+            lines: 0, // Reset total lines for visual clarity? Or keep? Usually per level reset makes sense if score resets.
             status: 'PLAYING',
             clearingLines: [],
         });
