@@ -13,7 +13,7 @@ const MazeRenderer = ({ grid, width, height, playerPos, facing, endPos, keys, do
             style={{
                 gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
                 aspectRatio: `${width}/${height}`,
-                width: 'min(90vw, 85vh)', // Keep it square-ish and fitting
+                width: 'min(90vw, 70vh)', // Keep it square-ish and fitting
             }}
         >
             {grid.map((row, y) => (

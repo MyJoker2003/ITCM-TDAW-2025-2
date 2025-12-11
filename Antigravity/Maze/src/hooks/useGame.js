@@ -121,27 +121,31 @@ export const useGame = () => {
     const interact = useCallback(() => {
         setGameState(prev => {
             if (!prev.isPlaying || prev.isWon) return prev;
+            if (prev.inventory <= 0) return prev; // Do nothing if no keys
 
-            const targetX = prev.playerPos.x + prev.facing.x;
-            const targetY = prev.playerPos.y + prev.facing.y;
+            // Check all 4 adjacent cells (Up, Down, Left, Right)
+            const neighbors = [
+                { x: prev.playerPos.x, y: prev.playerPos.y - 1 }, // Up
+                { x: prev.playerPos.x, y: prev.playerPos.y + 1 }, // Down
+                { x: prev.playerPos.x - 1, y: prev.playerPos.y }, // Left
+                { x: prev.playerPos.x + 1, y: prev.playerPos.y }  // Right
+            ];
 
-            // Check if there is a door at target
-            const doorIndex = prev.doors.findIndex(d => d.x === targetX && d.y === targetY);
+            // Find a door in any of the neighboring cells
+            const doorIndex = prev.doors.findIndex(d =>
+                neighbors.some(n => n.x === d.x && n.y === d.y)
+            );
 
             if (doorIndex !== -1) {
-                // Found a door
-                if (prev.inventory > 0) {
-                    // Open it
-                    const newDoors = [...prev.doors];
-                    newDoors.splice(doorIndex, 1);
+                // Found a door nearby
+                const newDoors = [...prev.doors];
+                newDoors.splice(doorIndex, 1);
 
-                    return {
-                        ...prev,
-                        doors: newDoors,
-                        inventory: prev.inventory - 1,
-                        // Add animation trigger state? For now just remove.
-                    };
-                }
+                return {
+                    ...prev,
+                    doors: newDoors,
+                    inventory: prev.inventory - 1,
+                };
             }
             return prev;
         });

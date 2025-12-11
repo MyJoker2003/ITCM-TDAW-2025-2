@@ -65,13 +65,13 @@ const GameView = ({ level, onLevelComplete, onExit, showTutorial }) => {
     }
 
     return (
-        <div className="relative w-full h-screen bg-sci-fi-bg flex flex-col items-center justify-center overflow-hidden">
+        <div className="relative w-full h-screen bg-sci-fi-bg flex flex-col items-center overflow-hidden">
 
             {/* Top Bar / HUD */}
-            <div className="absolute top-4 w-full px-8 flex justify-between items-center text-white z-10 pointer-events-none">
+            <div className="relative w-full h-24 px-8 flex justify-between items-center text-white z-10 shrink-0">
 
                 {/* Left: Stats */}
-                <div className="flex gap-6 bg-slate-900/80 p-3 rounded-xl border border-slate-700 backdrop-blur-sm">
+                <div className="flex gap-6 bg-slate-900/80 p-3 rounded-xl border border-slate-700 backdrop-blur-sm pointer-events-auto">
                     <div className="flex items-center gap-2 text-sci-fi-accent">
                         <Clock size={18} />
                         <span className="font-mono text-xl">{formatTime(gameState.time)}</span>
@@ -89,33 +89,35 @@ const GameView = ({ level, onLevelComplete, onExit, showTutorial }) => {
                     )}
                 </div>
 
-                {/* Level Indicator */}
-                <div className="text-3xl font-sci-fi font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">
+                {/* Center: Level Indicator */}
+                <div className="absolute left-1/2 -translate-x-1/2 text-2xl font-sci-fi font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     LEVEL {level}
                 </div>
-            </div>
 
-            {/* Back Button (Pointer Events auto-enabled on button) */}
-            <button
-                onClick={onExit}
-                className="absolute top-4 right-8 p-2 bg-slate-800 text-white rounded hover:bg-red-600 transition-colors z-50 pointer-events-auto flex gap-2 items-center"
-            >
-                <Undo2 size={20} />
-                <span className="hidden md:inline">Exit</span>
-            </button>
+                {/* Right: Exit Button */}
+                <button
+                    onClick={onExit}
+                    className="pointer-events-auto p-2 bg-slate-800 text-white rounded hover:bg-red-600 transition-colors flex gap-2 items-center border border-slate-600"
+                >
+                    <Undo2 size={20} />
+                    <span className="hidden md:inline">Exit</span>
+                </button>
+            </div>
 
 
             {/* Main Game Area */}
-            <MazeRenderer
-                grid={gameState.grid}
-                width={gameState.width}
-                height={gameState.height}
-                playerPos={gameState.playerPos}
-                facing={gameState.facing}
-                endPos={gameState.endPos}
-                keys={gameState.keys}
-                doors={gameState.doors}
-            />
+            <div className="flex-1 flex items-center justify-center w-full p-4 overflow-hidden">
+                <MazeRenderer
+                    grid={gameState.grid}
+                    width={gameState.width}
+                    height={gameState.height}
+                    playerPos={gameState.playerPos}
+                    facing={gameState.facing}
+                    endPos={gameState.endPos}
+                    keys={gameState.keys}
+                    doors={gameState.doors}
+                />
+            </div>
 
             {/* Tutorial Overlay */}
             {internalTutorial && (
