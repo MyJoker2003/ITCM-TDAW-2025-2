@@ -112,7 +112,7 @@ const GameView = ({ level, onLevelComplete, onExit, showTutorial }) => {
                     width={gameState.width}
                     height={gameState.height}
                     playerPos={gameState.playerPos}
-                    facing={gameState.facing}
+
                     endPos={gameState.endPos}
                     keys={gameState.keys}
                     doors={gameState.doors}

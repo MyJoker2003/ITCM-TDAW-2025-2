@@ -2,7 +2,7 @@
 import React from 'react';
 import { User, Key, DoorOpen, Flag } from 'lucide-react';
 
-const MazeRenderer = ({ grid, width, height, playerPos, facing, endPos, keys, doors }) => {
+const MazeRenderer = ({ grid, width, height, playerPos, endPos, keys, doors }) => {
     // Determine cell size based on viewport? 
     // For now, let's use a responsive container and calculate percentage or use a fixed size logic with transform.
     // Actually, CSS Grid `repeat(width, minmax(0, 1fr))` ensures it fits the container.
@@ -69,17 +69,6 @@ const MazeRenderer = ({ grid, width, height, playerPos, facing, endPos, keys, do
                             {isPlayer && (
                                 <div
                                     className="absolute text-sci-fi-purple drop-shadow-[0_0_8px_rgba(191,0,255,0.8)] transition-all duration-150"
-                                    style={{
-                                        transform: `rotate(${Math.atan2(facing.y, facing.x)}rad)` // Simplistic rotation, might need adjustment for UP (-1 y)
-                                        // Math.atan2(y, x). Up: (0, -1) -> -PI/2. Right: (1, 0) -> 0. Down: (0, 1) -> PI/2. Left: (-1, 0) -> PI.
-                                        // This creates proper rotation logic.
-                                        // However, standard CSS rotate starts at x-axis (Right).
-                                        // So if Lucide User icon faces "up" by default or "front"?
-                                        // User icon is usually just a head/body.
-                                        // Let's use a simpler Chevron or Arrow for direction, or just no rotation for Humanoid.
-                                        // Re-reading user request: "Control del personaje".
-                                        // I'll stick to User icon and maybe no rotation or just flip.
-                                    }}
                                 >
                                     <User size="75%" />
                                 </div>

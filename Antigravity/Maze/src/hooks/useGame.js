@@ -11,7 +11,8 @@ export const useGame = () => {
         height: 0,
         grid: [], // 2D array
         playerPos: { x: 0, y: 0 },
-        facing: { x: 0, y: 1 }, // Default facing down
+        playerPos: { x: 0, y: 0 },
+        endPos: { x: 0, y: 0 },
         endPos: { x: 0, y: 0 },
         keys: [], // Array of key objects {x, y, id}
         doors: [], // Array of door objects {x, y, id}
@@ -42,7 +43,8 @@ export const useGame = () => {
             height: maze.height,
             grid: maze.grid,
             playerPos: maze.start,
-            facing: { x: 0, y: 1 },
+            playerPos: maze.start,
+            endPos: maze.end,
             endPos: maze.end,
             keys: maze.keys,
             doors: maze.doors,
@@ -57,16 +59,16 @@ export const useGame = () => {
             if (!prev.isPlaying || prev.isWon) return prev;
 
             const newPos = { x: prev.playerPos.x + dx, y: prev.playerPos.y + dy };
-            const newFacing = { x: dx, y: dy };
+
 
             // Check Bounds
             if (newPos.x < 0 || newPos.y < 0 || newPos.x >= prev.width || newPos.y >= prev.height) {
-                return { ...prev, facing: newFacing };
+                return prev;
             }
 
             // Check Walls
             if (prev.grid[newPos.y][newPos.x] === 1) {
-                return { ...prev, facing: newFacing };
+                return prev;
             }
 
             // Check Doors
@@ -82,7 +84,7 @@ export const useGame = () => {
 
             const isDoor = prev.doors.some(d => d.x === newPos.x && d.y === newPos.y);
             if (isDoor) {
-                return { ...prev, facing: newFacing }; // Locked door behaves like wall
+                return prev; // Locked door behaves like wall
             }
 
             // Move is valid
@@ -108,7 +110,6 @@ export const useGame = () => {
             return {
                 ...prev,
                 playerPos: newPos,
-                facing: newFacing,
                 inventory: newInventory,
                 keys: newKeys,
                 moves: prev.moves + 1,
