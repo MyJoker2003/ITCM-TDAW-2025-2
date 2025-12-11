@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MainMenu from './components/MainMenu';
 import GameView from './components/GameView';
 import LevelSelection from './components/LevelSelection';
@@ -16,12 +16,45 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
 
-  // Audio Placeholder logic
+  // Audio Logic
+  const audioRef = useRef(null);
+
   useEffect(() => {
-    // Here we would handle the background music using the 'volume' state.
-    // const audio = new Audio('/audio/bgm.mp3');
-    // audio.volume = volume;
-    // ...
+    // Initialize audio object once
+    audioRef.current = new Audio('/audio/bgm.m4a');
+    audioRef.current.loop = true;
+
+    // Helper to start playback safely
+    const playAudio = () => {
+      audioRef.current.play().catch(err => {
+        // Autoplay blocked: wait for interaction
+        console.log("Autoplay blocked, waiting for interaction");
+        const resumeAudio = () => {
+          audioRef.current.play();
+          window.removeEventListener('click', resumeAudio);
+          window.removeEventListener('keydown', resumeAudio);
+        };
+        window.addEventListener('click', resumeAudio);
+        window.addEventListener('keydown', resumeAudio);
+      });
+    };
+
+    playAudio();
+
+    return () => {
+      // Cleanup
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []); // Run once on mount
+
+  // Update volume when state changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
   }, [volume]);
 
   // Persist Max Level
