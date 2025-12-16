@@ -1,0 +1,55 @@
+dialog.confirm-modal {
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    width: 90%;
+    max-width: 400px;
+    /* Smaller than ListModal */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+dialog.confirm-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.confirm-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.confirm-body {
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.confirm-footer {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-secondary);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    /* Red-600 */
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+    /* Red-700 */
+}

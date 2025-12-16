@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ListModal } from './components/ListModal';
+import { ConfirmationModal } from './components/ConfirmationModal';
 import './index.css';
 import './App.css';
 
@@ -42,6 +43,10 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedList, setSelectedList] = useState(null);
 
+  // Delete Confirmation State
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [listToDelete, setListToDelete] = useState(null);
+
   // Persistence
   useEffect(() => {
     localStorage.setItem('todo-lists', JSON.stringify(lists));
@@ -72,10 +77,17 @@ function App() {
     }
   };
 
-  const handleDeleteList = (e, id) => {
+  const handleDeleteClick = (e, list) => {
     e.stopPropagation();
-    if (window.confirm('Are you sure you want to delete this list?')) {
-      setLists(prev => prev.filter(l => l.id !== id));
+    setListToDelete(list);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteList = () => {
+    if (listToDelete) {
+      setLists(prev => prev.filter(l => l.id !== listToDelete.id));
+      setListToDelete(null);
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -103,7 +115,8 @@ function App() {
               <h3>{list.name}</h3>
               <button
                 className="delete-list-btn"
-                onClick={(e) => handleDeleteList(e, list.id)}
+                onClick={(e) => handleDeleteClick(e, list)}
+                aria-label={`Delete ${list.name}`}
               >
                 ✕
               </button>
@@ -129,6 +142,14 @@ function App() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveList}
         list={selectedList}
+      />
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDeleteList}
+        title="Delete List"
+        message={`Are you sure you want to delete "${listToDelete?.name}"? This action cannot be undone.`}
       />
     </div>
   );
