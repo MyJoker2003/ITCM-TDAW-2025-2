@@ -55,6 +55,10 @@ dialog.list-modal::backdrop {
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  /* Space between main sections */
 }
 
 .modal-footer {
@@ -106,9 +110,51 @@ dialog.list-modal::backdrop {
   cursor: not-allowed;
 }
 
-/* Date Section Styles */
+/* Main Status Sections (Pending / Completed) */
+.status-section {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background-color: var(--bg-secondary);
+}
+
+.status-section>summary {
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.status-section>summary:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.status-section[open]>summary {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+  border-radius: 6px 6px 0 0;
+}
+
+/* Hide default triangle for main sections */
+.status-section>summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Inner Date Sections */
 .date-section {
-  margin-bottom: 1.5rem;
+  margin-left: 1rem;
+  /* Indent inner sections */
+  margin-bottom: 1rem;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1rem;
 }
 
 .date-section summary {
@@ -121,6 +167,7 @@ dialog.list-modal::backdrop {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.95rem;
 }
 
 .date-section summary::-webkit-details-marker {
@@ -133,12 +180,13 @@ dialog.list-modal::backdrop {
   height: 1px;
   background: var(--border-color);
   margin-left: 0.5rem;
+  opacity: 0.5;
 }
 
 .section-badge {
   display: inline-block;
-  padding: 0.25em 0.6em;
-  font-size: 0.75em;
+  padding: 0.2em 0.5em;
+  font-size: 0.7em;
   font-weight: 700;
   line-height: 1;
   text-align: center;
