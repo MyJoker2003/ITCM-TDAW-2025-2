@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
 import './InputForm.css';
 
 export function InputForm({ onAdd }) {
-    const [inputValue, setInputValue] = useState('');
+    const [text, setText] = useState('');
+    const [date, setDate] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (inputValue.trim()) {
-            onAdd(inputValue.trim());
-            setInputValue('');
-        }
+        if (!text.trim()) return;
+
+        // Pass both text and date
+        onAdd(text, date);
+
+        setText('');
+        setDate('');
     };
 
     return (
@@ -18,13 +21,20 @@ export function InputForm({ onAdd }) {
             <input
                 type="text"
                 className="task-input"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 placeholder="Add a new task..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                autoFocus
             />
-            <button type="submit" className="add-button" disabled={!inputValue.trim()}>
-                <Plus size={20} />
-                <span>Add</span>
+            <input
+                type="date"
+                className="date-input"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                aria-label="Task due date"
+            />
+            <button type="submit" className="add-button">
+                Add
             </button>
         </form>
     );

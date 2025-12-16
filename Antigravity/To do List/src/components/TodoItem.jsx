@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, Check } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import './TodoItem.css';
 
 export function TodoItem({ task, onToggle, onDelete }) {
@@ -8,15 +8,22 @@ export function TodoItem({ task, onToggle, onDelete }) {
             <label className="checkbox-container">
                 <input
                     type="checkbox"
+                    className="checkbox"
                     checked={task.completed}
                     onChange={() => onToggle(task.id)}
                 />
-                <span className="custom-checkbox">
-                    {task.completed && <Check size={14} strokeWidth={3} />}
-                </span>
             </label>
 
-            <span className="task-text">{task.text}</span>
+            <div className="todo-content">
+                <span className={`todo-text ${task.completed ? 'completed' : ''}`}>
+                    {task.text}
+                </span>
+                {task.date && (
+                    <span className="todo-date">
+                        📅 {task.date}
+                    </span>
+                )}
+            </div>
 
             <button
                 className="delete-button"

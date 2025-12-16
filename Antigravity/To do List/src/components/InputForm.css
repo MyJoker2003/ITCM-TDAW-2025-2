@@ -1,40 +1,52 @@
 .input-form {
     display: flex;
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
 .task-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius);
+    flex: 2;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     font-size: 1rem;
-    transition: border-color 0.2s;
-    outline: none;
+    transition: all 0.2s;
 }
 
-.task-input:focus {
+.date-input {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.task-input:focus,
+.date-input:focus {
+    outline: none;
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.1);
 }
 
 .add-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
     background-color: var(--accent-color);
     color: white;
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius);
+    border: none;
+    border-radius: 8px;
     font-weight: 600;
+    cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.add-button:hover:not(:disabled) {
-    background-color: var(--accent-hover);
+.add-button:hover {
+    background-color: #535bf2;
 }
 
-.add-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.add-button:active {
+    transform: translateY(1px);
 }

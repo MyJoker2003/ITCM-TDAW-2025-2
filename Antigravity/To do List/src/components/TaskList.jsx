@@ -7,9 +7,11 @@ export function TaskList({ title, tasks, onToggle, onDelete }) {
 
     return (
         <div className="task-list-section">
-            <h3 className="section-title">
-                {title} <span className="count">({tasks.length})</span>
-            </h3>
+            {title && (
+                <h3 className="section-title">
+                    {title} <span className="count">({tasks.length})</span>
+                </h3>
+            )}
             <div className="task-list">
                 {tasks.map(task => (
                     <TodoItem

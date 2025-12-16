@@ -1,6 +1,8 @@
 :root {
   --bg-color: #f0f2f5;
   --card-bg: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
   --accent-color: #3b82f6;
@@ -75,8 +77,15 @@ input {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
