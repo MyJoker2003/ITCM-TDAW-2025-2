@@ -97,7 +97,10 @@ const App = () => {
   return (
     <div className="app-container">
       {/* Top Section: Sidebar + Canvas */}
-      <div className="main-area" style={{ height: isKeyboardOpen ? 'calc(100vh - 300px)' : '100vh' }}>
+      <div className="main-area" style={{
+        height: isKeyboardOpen ? 'calc(100vh - 300px)' : '100vh',
+        flexGrow: isKeyboardOpen ? 0 : 1
+      }}>
         <Sidebar
           functions={functions}
           onUpdateFunction={updateFunction}
