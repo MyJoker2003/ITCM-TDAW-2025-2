@@ -1,0 +1,332 @@
+:root {
+  /* Theme Colors */
+  --bg-app: #0f172a;
+  /* Dark slate background */
+  --bg-sidebar: #1e293b;
+  /* Sidebar background */
+  --bg-panel: #2b3648;
+  /* Elements background */
+
+  --primary: #8b5cf6;
+  /* Violet 500 */
+  --primary-hover: #7c3aed;
+  --primary-light: #a78bfa;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --border-color: #334155;
+  --danger: #ef4444;
+
+  /* Grid/Graph Colors */
+  --grid-major: #475569;
+  --grid-minor: #1e293b;
+  --axis-color: #cbd5e1;
+
+  /* Dimensions */
+  --sidebar-width: 320px;
+  --keyboard-height: 300px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  overflow: hidden;
+  /* Prevent body scroll, we handle it in components */
+  width: 100vw;
+  height: 100vh;
+}
+
+input,
+button {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* --- App Layout --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-area {
+  display: flex;
+  flex: 1;
+  transition: height 0.3s ease;
+}
+
+.canvas-wrapper {
+  flex: 1;
+  position: relative;
+  background: var(--bg-app);
+}
+
+.keyboard-toggle {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  z-index: 20;
+}
+
+.keyboard-toggle:hover {
+  background: var(--border-color);
+  transform: translateY(-2px);
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  height: 100%;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-main);
+}
+
+.function-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.sidebar-collapsed {
+  width: 40px;
+  background: var(--bg-sidebar);
+  height: 100%;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.toggle-btn:hover {
+  color: var(--text-main);
+}
+
+/* --- Function Item --- */
+.function-item {
+  background: var(--bg-panel);
+  margin-bottom: 8px;
+  border-left: 4px solid transparent;
+  border-radius: 4px;
+  padding: 8px;
+  transition: all 0.2s;
+}
+
+.function-item.active {
+  background: #334155;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 1rem;
+  min-width: 0;
+}
+
+.f-label {
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.visibility-btn,
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: var(--text-muted);
+  border-radius: 4px;
+}
+
+.delete-btn:hover {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.color-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.color-indicator-stroke {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+/* --- Graph Canvas --- */
+.graph-container {
+  /* props are passed inline */
+}
+
+.icon-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--border-color);
+}
+
+/* --- Virtual Keyboard --- */
+.virtual-keyboard {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--keyboard-height);
+  background: #f1f5f9;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.keyboard-header {
+  height: 32px;
+  background: #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.kb-title {
+  margin-right: auto;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.keys-grid {
+  flex: 1;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.key-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.math-key {
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  transition: background 0.1s;
+}
+
+.math-key:active {
+  background: #cbd5e1;
+}
+
+.math-key.special {
+  background: #94a3b8;
+  color: white;
+}
