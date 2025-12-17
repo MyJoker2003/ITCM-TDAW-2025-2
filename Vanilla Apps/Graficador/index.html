@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Graficador de Ecuaciones</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@11.9.0/lib/browser/math.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Graficador de ecuaciones</h1>
+      <p>Escribe una función en <code>x</code> y se graficará en la ventana.</p>
+    </header>
+
+    <main>
+      <section class="controls">
+        <label>
+          Función (ej: <em>sin(x)</em>, <em>x^2</em>):
+          <input id="expr" type="text" value="sin(x)" />
+        </label>
+
+        <label>
+          Rango X:
+          <input id="xmin" type="number" step="any" value="-10" /> —
+          <input id="xmax" type="number" step="any" value="10" />
+        </label>
+
+        <label>
+          Muestras (más = más detalle):
+          <input id="samples" type="number" min="50" max="5000" value="800" />
+        </label>
+
+        <label>
+          Escala Y automática:
+          <input id="autoY" type="checkbox" checked />
+        </label>
+
+        <div class="buttons">
+          <button id="redraw">Graficar</button>
+          <button id="reset">Reset</button>
+        </div>
+
+        <div id="error" class="error"></div>
+      </section>
+
+      <section class="visual">
+        <canvas id="plot" width="900" height="500"></canvas>
+        <aside class="legend">
+          <div><strong>Tips</strong></div>
+          <div>Usa funciones: sin, cos, tan, exp, log, sqrt, abs, pow</div>
+          <div>Operadores: + - * / ^ (ej: x^3 - 2*x)</div>
+          <div>Ejemplo: <code>sin(x) + 0.5*x</code></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <small>Grafica en tiempo real — powered by math.js</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
