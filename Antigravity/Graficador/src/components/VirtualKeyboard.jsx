@@ -5,22 +5,22 @@ const KEYS = [
   // Row 1
   { label: 'x', value: 'x' },
   { label: 'y', value: 'y' },
-  { label: 'π', value: 'pi' },
+  { label: 'π', value: 'π' },
   { label: 'e', value: 'e' },
   { label: '7', value: '7' },
   { label: '8', value: '8' },
   { label: '9', value: '9' },
-  { label: '÷', value: '/' },
+  { label: '÷', value: '÷' },
 
   // Row 2
-  { label: 'x²', value: '^2' },
+  { label: 'x²', value: '²' },
   { label: 'a^b', value: '^' },
-  { label: '√', value: 'sqrt(' },
+  { label: '√', value: '√(' },
   { label: '|a|', value: 'abs(' },
   { label: '4', value: '4' },
   { label: '5', value: '5' },
   { label: '6', value: '6' },
-  { label: '×', value: '*' },
+  { label: '×', value: '×' },
 
   // Row 3
   { label: 'sin', value: 'sin(' },

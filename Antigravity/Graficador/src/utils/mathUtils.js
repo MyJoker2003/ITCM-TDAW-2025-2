@@ -17,6 +17,10 @@ export const generateRandomColor = (excludeColors = []) => {
 };
 
 const MATH_REPLACEMENTS = [
+    { regex: /√/g, replacement: 'Math.sqrt' },
+    { regex: /÷/g, replacement: '/' },
+    { regex: /×/g, replacement: '*' },
+    { regex: /²/g, replacement: '**2' },
     { regex: /\^/g, replacement: '**' },
     { regex: /sin/g, replacement: 'Math.sin' },
     { regex: /cos/g, replacement: 'Math.cos' },
