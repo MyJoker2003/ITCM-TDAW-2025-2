@@ -10,19 +10,20 @@ const GraphCanvas = ({ functions, view, setView }) => {
     const isDragging = useRef(false);
     const lastMousePos = useRef({ x: 0, y: 0 });
 
-    // Handle resize
+    // Handle resize with ResizeObserver
     useEffect(() => {
-        const handleResize = () => {
-            if (containerRef.current) {
-                setDimensions({
-                    width: containerRef.current.clientWidth,
-                    height: containerRef.current.clientHeight,
-                });
+        if (!containerRef.current) return;
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                setDimensions({ width, height });
             }
-        };
-        window.addEventListener('resize', handleResize);
-        handleResize();
-        return () => window.removeEventListener('resize', handleResize);
+        });
+
+        resizeObserver.observe(containerRef.current);
+
+        return () => resizeObserver.disconnect();
     }, []);
 
     // Drawing Logic
